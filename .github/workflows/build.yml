@@ -14,7 +14,7 @@ jobs:
         uses: FedericoCarboni/setup-ffmpeg@v1-beta
         id: setup-ffmpeg
       - name: Execute ffmpeg
-        run: ffmpeg -loop 1 -i origin/${{ env.PHOTO }} -i ${{ env.MUSIC }} -c:a copy -c:v libx264 -shortest ${{ env.VIDEO }}
+        run: ffmpeg -loop 1 -i origin/${{ env.PHOTO }} -i ${{ env.MUSIC }} -c:a copy -c:v libx264 -shortest processed/${{ env.VIDEO }}
       - name: Check to see if a new video file has been created
         id: changes
         run: |
