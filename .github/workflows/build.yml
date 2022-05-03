@@ -30,6 +30,6 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: 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
           branch: ${{ github.ref }}
         if: steps.changes.outputs.count > 0
