@@ -1,0 +1,35 @@
+name: Create Archive
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      MUSIC: 2.mp3
+      PHOTO: 2.jpeg
+      VIDEO: 2.MP4
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup ffmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v1-beta
+        id: setup-ffmpeg
+      - name: Execute ffmpeg
+        run: ffmpeg -loop 1 -i origin/${{ env.PHOTO }} -i origin/${{ env.MUSIC }} -c:v libx264 -s 526x648 -crf 18 -c:a aac -strict experimental -b:a 192k -shortest output/${{ env.VIDEO }}          
+      - name: Check to see if a new video file has been created
+        id: changes
+        run: |
+          git add -N .
+          echo "::set-output name=count::$(git diff --name-only | wc -l)"
+      - name: Commit files
+        run: |
+          git config --local user.email "whxcctv@users.noreply.github.com"
+          git config --local user.name "whxcctv"
+          git add ./output/*
+          git commit -m "Add changes" -a
+        if: steps.changes.outputs.count > 0
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+        if: steps.changes.outputs.count > 0
