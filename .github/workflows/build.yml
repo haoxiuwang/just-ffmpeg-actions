@@ -10,7 +10,7 @@ jobs:
         uses: FedericoCarboni/setup-ffmpeg@v1-beta
         id: setup-ffmpeg
       - name: Execute ffmpeg
-        run: ffmpeg -loop 1 -i origin/2.jpeg -i origin/2.mp3 -c:v libx264 -s 526x648 -crf 18 -c:a aac -strict-vf "drawtext=fontfile=fonts/Cinzel-VariableFont_wght.ttf:text='Fresh Off The Boat':fontsize=46:fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:x=W*(1-0.05*t):y=H+descent-ascent" experimental  -b:a 192k -shortest processed/${{ env.VIDEO }}  
+        run: ffmpeg -loop 1 -i origin/2.jpeg -i origin/2.mp3 -c:v libx264 -s 526x648 -crf 18 -c:a aac -strict experimental -vf "drawtext=fontfile=fonts/Cinzel-VariableFont_wght.ttf:text='Fresh Off The Boat':fontsize=46:fontcolor=white:shadowcolor=black:shadowx=1:shadowy=1:x=W*(1-0.05*t):y=H+descent-ascent" -b:a 192k -shortest processed/${{ env.VIDEO }}  
       - name: Check to see if a new video file has been created
         id: changes
         run: |
